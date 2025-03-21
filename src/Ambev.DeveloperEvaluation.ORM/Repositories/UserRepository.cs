@@ -18,6 +18,7 @@ public class UserRepository : IUserRepository
     public UserRepository(DefaultContext context)
     {
         _context = context;
+        _context.Database.Migrate();
     }
 
     /// <summary>
@@ -34,6 +35,16 @@ public class UserRepository : IUserRepository
     }
 
     /// <summary>
+    /// Retrieves all users
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The list of users if found, null otherwise</returns>
+    public async Task<List<User>?> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Users.ToListAsync(cancellationToken);
+    }
+
+    /// <summary>
     /// Retrieves a user by their unique identifier
     /// </summary>
     /// <param name="id">The unique identifier of the user</param>
@@ -41,7 +52,7 @@ public class UserRepository : IUserRepository
     /// <returns>The user if found, null otherwise</returns>
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Users.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await _context.Users.AsNoTracking().FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
     }
 
     /// <summary>
@@ -54,6 +65,21 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users
             .FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
+    }
+
+
+    /// <summary>
+    /// Updates an user in the database
+    /// </summary>
+    /// <param name="user">The user to update</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The updated user</returns>
+    public async Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default)
+    {
+        user.UpdatedAt = DateTime.UtcNow;
+        _context.Users.Update(user);
+        await _context.SaveChangesAsync(cancellationToken);
+        return user;
     }
 
     /// <summary>

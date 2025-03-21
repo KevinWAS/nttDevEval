@@ -15,6 +15,14 @@ public interface IUserRepository
     /// <returns>The created user</returns>
     Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
 
+
+    /// <summary>
+    /// Retrieves all users
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The list of users if found, null otherwise</returns>
+    Task<List<User>?> GetAllAsync(CancellationToken cancellationToken = default);
+
     /// <summary>
     /// Retrieves a user by their unique identifier
     /// </summary>
@@ -30,6 +38,14 @@ public interface IUserRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The user if found, null otherwise</returns>
     Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Updates an user in the repository
+    /// </summary>
+    /// <param name="user">The user to update</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The updated user</returns>
+    Task<User> UpdateAsync(User user, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a user from the repository
