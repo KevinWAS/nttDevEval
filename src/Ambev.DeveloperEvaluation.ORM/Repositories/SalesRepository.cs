@@ -28,6 +28,6 @@ public class SalesRepository : ISalesRepository
     /// <returns>The list of users if found, null otherwise</returns>
     public async Task<List<Carts>?> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.Carts.ToListAsync(cancellationToken);
+        return await _context.Carts.Include(u=>u.Products).ToListAsync(cancellationToken);
     }
 }

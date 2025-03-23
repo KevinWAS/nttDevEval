@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Ambev.DeveloperEvaluation.Domain.Common;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities;
@@ -7,22 +8,30 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities;
 /// Represents a Cart in the system with authentication and profile information.
 /// This entity follows domain-driven design principles and includes business rules validation.
 /// </summary>
-public class Carts : BaseEntity
+public class Products : BaseEntity
 {
     /// <summary>
     /// UserId owner of the cart
     /// </summary>
-    public Guid UserId { get; set; }
+    public Carts Carts { get; set; }
 
     /// <summary>
     /// Date of the cart
     /// </summary>
-    public DateOnly Date { get; set; }
+    public string? Title { get; set; }
 
-    /// <summary>
-    /// List of products on this cart
-    /// </summary>
-    public List<Products> Products { get; set; } = new List<Products>();
+    public float? Price { get; set; }
+
+    public string? Description { get; set; }
+
+    public string? Category { get; set; }
+
+    public string? Image { get; set; }
+
+    public float? RatingRate { get; set; }
+
+    public int? RatingCount { get; set; }
+
     /// <summary>
     /// Gets the date and time when the cart was created.
     /// </summary>
@@ -36,7 +45,7 @@ public class Carts : BaseEntity
     /// <summary>
     /// Initializes a new instance of the Carts class.
     /// </summary>
-    public Carts()
+    public Products()
     {
         CreatedAt = DateTime.UtcNow;
     }

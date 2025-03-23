@@ -38,6 +38,6 @@ public class GetSalesHandler : IRequestHandler<GetSalesCommand, GetSalesResult>
         if (sales == null)
             throw new FileNotFoundException($"No sales in the database");
 
-        return _mapper.Map<GetSalesResult>(sales);
+        return new GetSalesResult(sales);
     }
 }

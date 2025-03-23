@@ -8,5 +8,11 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.GetSales;
 /// </summary>
 public class GetSalesResult : List<GetSaleResult>
 {
-
+    public GetSalesResult(List<Carts> carts)
+    {
+        foreach (var cart in carts)
+        {
+            this.Add(new GetSaleResult(cart));
+        }
+    }
 }
