@@ -22,7 +22,7 @@ public class Carts : BaseEntity
     /// <summary>
     /// List of products on this cart
     /// </summary>
-    public List<Products>? Products { get; set; }
+    //public List<Products>? Products { get; set; }
 
     /// <summary>
     /// Gets the date and time when the cart was created.
