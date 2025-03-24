@@ -24,7 +24,8 @@ public class ProductsConfiguration : IEntityTypeConfiguration<Products>
         builder.Property(u => u.UpdatedAt).HasColumnType("date");
 
         builder.HasOne<Carts>(u => u.Carts)
-            .WithMany(u => u.Products);
+            .WithMany(u => u.Products)
+            .HasForeignKey(u => u.CartsId);
 
 
     }

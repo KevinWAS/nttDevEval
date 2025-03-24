@@ -2,19 +2,8 @@ using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 
-public struct Products
-{
-    public Guid ProductId { get; set; }
-    public int Quantity { get; set; }
-
-    public Products(Guid productId, int quantity)
-    {
-        ProductId = productId;
-        Quantity = quantity;
-    }
-}
 /// <summary>
-/// Response model for GetUser operation
+/// Response model for GetSale operation
 /// </summary>
 public class GetSaleResult
 {
@@ -22,7 +11,7 @@ public class GetSaleResult
     public Guid UserId { get; set; }
     public DateOnly Date { get; set; }
 
-    public List<Products> Products { get; set; } = new List<Products>();
+    public List<ProductsResult.Products> Products { get; set; } = new List<ProductsResult.Products>();
 
     public GetSaleResult(Carts cart)
     {
@@ -33,7 +22,7 @@ public class GetSaleResult
 
         foreach (var prod in cart.Products)
         {
-            this.Products.Add(new Products(prod.Id, prod.RatingCount ?? 1));
+            this.Products.Add(new ProductsResult.Products(prod.Id, prod.RatingCount ?? 1));
         }
     }
 }

@@ -16,6 +16,12 @@ public class Products : BaseEntity
     public Carts Carts { get; set; }
 
     /// <summary>
+    /// Foreign key for the Carts entity
+    /// </summary>
+    [ForeignKey("Carts")]
+    public Guid CartsId { get; set; }
+
+    /// <summary>
     /// Date of the cart
     /// </summary>
     public string? Title { get; set; }
@@ -48,5 +54,7 @@ public class Products : BaseEntity
     public Products()
     {
         CreatedAt = DateTime.UtcNow;
+        CartsId = Guid.NewGuid();
+        Carts = new Carts();
     }
 }
