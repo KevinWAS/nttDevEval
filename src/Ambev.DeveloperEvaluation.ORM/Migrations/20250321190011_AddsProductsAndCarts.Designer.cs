@@ -3,6 +3,7 @@ using System;
 using Ambev.DeveloperEvaluation.ORM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20250321190011_AddsProductsAndCarts")]
+    partial class AddsProductsAndCarts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,39 +58,39 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("gen_random_uuid()");
 
-                    b.Property<Guid>("CartsId")
+                    b.Property<Guid>("CartId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Category")
-                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("date");
 
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(100)");
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<float?>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<int?>("RatingCount")
-                        .HasColumnType("int");
-
-                    b.Property<float?>("RatingRate")
+                    b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Title")
-                        .HasColumnType("varchar(100)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("date");
 
+                    b.Property<int>("ratingCount")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("ratingRate")
+                        .HasColumnType("numeric");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CartsId");
+                    b.HasIndex("CartId");
 
                     b.ToTable("Products", (string)null);
                 });
@@ -151,18 +154,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Products", b =>
                 {
-                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", "Carts")
-                        .WithMany("Products")
-                        .HasForeignKey("CartsId")
+                    b.HasOne("Ambev.DeveloperEvaluation.Domain.Entities.Carts", null)
+                        .WithMany()
+                        .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Carts");
-                });
-
-            modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Carts", b =>
-                {
-                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
